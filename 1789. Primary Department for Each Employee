@@ -1,0 +1,8 @@
+https://leetcode.com/problems/primary-department-for-each-employee/description/?envType=study-plan-v2&envId=top-sql-50
+
+select DISTINCT E.EMPLOYEE_ID, e.DEPARTMENT_ID from Employee E
+where primary_flag = 'Y' OR E.employee_id IN  
+(SELECT EMPLOYEE_ID FROM EMPLOYEE 
+GROUP BY EMPLOYEE_ID
+HAVING COUNT(*) = 1
+)
