@@ -1,0 +1,8 @@
+https://leetcode.com/problems/triangle-judgement/description/?envType=study-plan-v2&envId=top-sql-50
+
+
+/* Write your PL/SQL query statement below */
+SELECT distinct X,Y,Z, 
+CASE WHEN X + Y > Z AND Z + X  > Y AND Z + Y > X THEN 'Yes' 
+ELSE 'No' END AS TRIANGlE
+ FROM TRIANGLE
