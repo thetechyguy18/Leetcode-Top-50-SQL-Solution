@@ -1,0 +1,12 @@
+https://leetcode.com/problems/the-number-of-employees-which-report-to-each-employee/description/?envType=study-plan-v2&envId=top-sql-50
+
+
+
+/* Write your PL/SQL query statement below */
+with temp as (select reports_to id, count(reports_to) cnt,Round(Avg(age)) avg_age from Employees
+group by reports_to)
+
+select E.employee_id, E.name,temp.cnt as reports_count,
+ temp.avg_age average_age from employees E 
+join temp on temp.id = E.employee_id
+order by e.employee_id;
