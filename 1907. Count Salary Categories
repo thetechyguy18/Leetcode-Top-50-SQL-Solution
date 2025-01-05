@@ -1,0 +1,22 @@
+https://leetcode.com/problems/count-salary-categories/description/?envType=study-plan-v2&envId=top-sql-50
+
+
+/* Write your PL/SQL query statement below */
+WITH TEMP AS (SELECT A.INCOME, COUNT(INCOME) AS CNT FROM
+(SELECT CASE WHEN INCOME < 20000  THEN 'Low Salary' 
+WHEN INCOME >= 20000 AND INCOME <= 50000 THEN 'Average Salary'
+WHEN INCOME > 50000 THEN 'High Salary' END AS INCOME
+FROM ACCOUNTS) A
+GROUP BY A.INCOME), 
+
+CATEGORY AS (
+    SELECT 'Low Salary' AS SALARY FROM DUAL 
+    UNION ALL 
+     SELECT 'Average Salary' AS SALARY FROM DUAL
+      UNION ALL 
+     SELECT 'High Salary' AS SALARY FROM DUAL
+)
+
+SELECT C.SALARY category, COALESCE(TEMP.CNT,0) AS accounts_count 
+FROM CATEGORY C
+LEFT JOIN TEMP ON TEMP.INCOME = C.SALARY
