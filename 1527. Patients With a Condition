@@ -1,0 +1,90 @@
+https://leetcode.com/problems/patients-with-a-condition/description/?envType=study-plan-v2&envId=top-sql-50
+
+
+/* Write your PL/SQL query statement below */
+SELECT * FROM PATIENTS 
+WHERE REGEXP_LIKE(CONDITIONS, '(^| )DIAB1[0-9]*( |$)') 
+
+
+
+REGEXP_LIKE(conditions, '(^| )DIAB1[0-9]*( |$)');
+
+Let’s break down the line:
+
+```sql
+REGEXP_LIKE(conditions, '(^| )DIAB1[0-9]*( |$)');
+```
+
+### Overview:
+The `REGEXP_LIKE` function checks whether a given string matches a specific regular expression pattern. In this case, the column or variable `conditions` is being checked against the pattern `(^| )DIAB1[0-9]*( |$)`.
+
+---
+
+### Detailed Explanation:
+
+#### 1. `REGEXP_LIKE(conditions, ...)`
+- **`REGEXP_LIKE`**: 
+  This is an Oracle SQL function used for pattern matching. It returns `TRUE` if the string in the first argument (`conditions`) matches the regular expression in the second argument.
+  
+- **`conditions`**: 
+  The column or variable being checked. This could be a text column in a table, containing phrases or conditions like `"DIAB12 hypertension"` or `"asthma DIAB1"`.
+
+---
+
+#### 2. `(^| )DIAB1[0-9]*( |$)`
+This is the regular expression pattern. Let’s break it down:
+
+1. **`(^| )`**:
+   - **`^`**: Matches the **start of the string**.
+   - **`|`**: Logical OR operator in regex. This means "either".
+   - **` `** (space): Matches a **space**.
+   - **`(^| )`**: Matches **either** the start of the string **or** a space. This ensures that `DIAB1` starts as a standalone word and not as part of another word (e.g., it won't match "NONDIAB1").
+
+---
+
+2. **`DIAB1`**:
+   - Matches the literal string **`DIAB1`** exactly. This is the prefix we are searching for in the text.
+
+---
+
+3. **`[0-9]*`**:
+   - **`[` and `]`**: Denotes a character set. `[0-9]` matches any digit (0 through 9).
+   - **`*`**: Matches **zero or more occurrences** of the preceding character or character set. 
+   - **`[0-9]*`**: Matches **zero or more digits** following `DIAB1`. For example:
+     - Matches: `DIAB1`, `DIAB123`, `DIAB19`.
+     - Does not match: `DIAB1abc` (because `abc` are not digits).
+
+---
+
+4. **`( |$)`**:
+   - **` `** (space): Matches a **space**.
+   - **`$`**: Matches the **end of the string**.
+   - **`( |$)`**: Matches **either a space or the end of the string**. This ensures `DIAB1` (with or without digits) is treated as a complete word or at the end of the input.
+
+---
+
+### Combined Pattern:
+The pattern ensures that `DIAB1` followed by any number of digits (e.g., `DIAB12`, `DIAB123`) is matched **only if it is a standalone word**:
+1. Starts at the beginning of the string (`^`) or after a space.
+2. Ends with a space or the end of the string (`$`).
+
+---
+
+### Example Matches:
+Given the string in `conditions`, here's how it works:
+
+| `conditions`               | Matches? | Why?                   |
+|----------------------------|----------|------------------------|
+| `"DIAB12 hypertension"`    | ✅        | `DIAB12` is standalone |
+| `"asthma DIAB1"`           | ✅        | `DIAB1` is standalone  |
+| `"NONDIAB1 hypertension"`  | ❌        | `DIAB1` is not standalone |
+| `"hypertension DIAB1X"`    | ❌        | `DIAB1X` doesn't match the digit rule |
+| `"DIAB1"`                  | ✅        | `DIAB1` matches standalone |
+
+---
+
+### Final Summary:
+- `REGEXP_LIKE`: Checks if `conditions` matches a specific pattern.
+- `(^| )`: Ensures `DIAB1` starts as a standalone word.
+- `DIAB1[0-9]*`: Matches `DIAB1` followed by zero or more digits.
+- `( |$)`: Ensures it ends with a space or the end of the string.
