@@ -1,0 +1,74 @@
+https://leetcode.com/problems/find-users-with-valid-e-mails/description/?envType=study-plan-v2&envId=top-sql-50
+
+
+/* Write your PL/SQL query statement below */
+SELECT * FROM USERS 
+WHERE REGEXP_LIKE(MAIL,'^[A-Za-z][A-Za-z0-9_.\-]*@leetcode\.com$');
+
+
+The given expression is a SQL query with a REGEXP_LIKE function. Let's break it down step by step:
+
+1. Function Overview:
+REGEXP_LIKE is used to check whether a string matches a given regular expression pattern.
+The syntax is:
+sql
+Copy code
+REGEXP_LIKE(column_name, 'pattern')
+In this case, it checks if the value in the MAIL column matches the specified pattern.
+2. Pattern Explanation:
+plaintext
+Copy code
+^[A-Za-z][A-Za-z0-9_.\-]*@leetcode\.com$
+Let's dissect the pattern:
+
+^:
+This asserts the start of the string. It ensures the pattern matches from the very beginning of the MAIL string.
+
+[A-Za-z]:
+Matches any single alphabetic character (uppercase or lowercase).
+
+This ensures the email begins with a letter.
+[A-Za-z0-9_.\-]*:
+
+Matches zero or more occurrences (*) of:
+Letters (A-Za-z),
+Digits (0-9),
+Underscore (_),
+Dot (.),
+Hyphen (-).
+This allows for valid characters in the username portion of the email before the @.
+@leetcode:
+Matches the literal string @leetcode.
+
+This ensures the domain part of the email starts with leetcode.
+\.:
+Matches a literal dot (.).
+
+Since . is a special character in regex, it must be escaped with a backslash (\) to be interpreted as a literal dot.
+com:
+Matches the literal string com.
+
+This ensures the domain extension is .com.
+$:
+Asserts the end of the string.
+
+Ensures there are no characters after .com.
+3. Full Pattern in Action:
+The pattern ensures that the email:
+Starts with a letter.
+Has valid characters (letters, numbers, _, ., or -) in the username part.
+Contains @leetcode.com as the domain.
+4. Example Matches:
+✅ john_doe@leetcode.com
+✅ Jane123@leetcode.com
+❌ 123_jane@leetcode.com (starts with a number)
+❌ john@leet-code.com (invalid domain)
+❌ jane@leetcode.org (wrong extension)
+5. Usage in SQL:
+This query can be used to filter rows where the MAIL column contains valid emails matching this pattern:
+
+sql
+Copy code
+SELECT *
+FROM table_name
+WHERE REGEXP_LIKE(MAIL, '^[A-Za-z][A-Za-z0-9_.\-]*@leetcode\.com$');
