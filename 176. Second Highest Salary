@@ -1,0 +1,8 @@
+https://leetcode.com/problems/second-highest-salary/description/?envType=study-plan-v2&envId=top-sql-50
+
+/* Write your PL/SQL query statement below */
+with temp as (select distinct salary, Dense_Rank() over (order by salary desc) rn from Employee 
+o)
+
+select coalesce( (select salary from temp where rn =2 ),Null) SecondHighestSalary
+ from Dual
