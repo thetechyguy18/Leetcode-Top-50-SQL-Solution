@@ -1,0 +1,14 @@
+https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/description/?envType=study-plan-v2&envId=top-sql-50
+
+/* Write your PL/SQL query statement below */
+WITH COMBINED_FRIENDS AS (SELECT requester_id ID ,accepter_id FRIEND_ID  FROM 
+RequestAccepted
+UNION 
+SELECT accepter_id ID ,requester_id FRIEND_ID  FROM 
+RequestAccepted)
+
+SELECT ID , NUM FROM (SELECT ID, COUNT(DISTINCT(FRIEND_ID)) NUM,
+ROW_NUMBER() OVER (ORDER BY COUNT(DISTINCT(FRIEND_ID))  DESC) AS RN 
+FROM COMBINED_FRIENDS
+GROUP BY ID) A 
+WHERE A.RN =1
