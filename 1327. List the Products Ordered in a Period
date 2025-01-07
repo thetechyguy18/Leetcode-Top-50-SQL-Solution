@@ -1,0 +1,11 @@
+https://leetcode.com/problems/list-the-products-ordered-in-a-period/description/?envType=study-plan-v2&envId=top-sql-50
+
+/* Write your PL/SQL query statement below */
+WITH TEMP AS (select p.product_name,sum(unit) unit from Products p 
+join Orders O on p.product_id = O.product_id
+where O.order_date between to_date('01-02-2020','DD-MM-YYYY')
+ AND to_date('29-02-2020','DD-MM-YYYY')
+GROUP BY P.PRODUCT_NAME)
+
+SELECT * FROM TEMP 
+WHERE UNIT >= 100
