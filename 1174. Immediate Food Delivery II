@@ -1,0 +1,9 @@
+/* Write your PL/SQL query statement below */
+with temp as (select customer_id , order_date, customer_pref_delivery_date,
+Row_number() over (partition by customer_id order by order_date) as rn
+from Delivery) ;
+
+select Round(count(case when order_date = customer_pref_delivery_date then 1 end)
+/count(distinct customer_id)*100,2)  immediate_percentage
+from temp 
+where rn=1
