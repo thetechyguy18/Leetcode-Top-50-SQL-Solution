@@ -1,0 +1,8 @@
+/* Write your PL/SQL query statement below */
+
+with Temp as  (select E.managerId id from Employee E 
+group by E.managerId
+having count(E.managerId)>=5)
+
+select name from Employee 
+inner join temp on Employee.id = temp.id;
