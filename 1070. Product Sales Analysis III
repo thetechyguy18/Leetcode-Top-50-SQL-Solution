@@ -1,0 +1,6 @@
+/* Write your PL/SQL query statement below */
+Select fr_yr.product_id, fr_yr.first_year,Sales.quantity, Sales.price from 
+(select product_id, min(year) first_year from Sales Group by product_id)
+ fr_yr
+ join Sales on fr_yr.product_id = Sales.product_id 
+ and sales.year = fr_yr.first_year
