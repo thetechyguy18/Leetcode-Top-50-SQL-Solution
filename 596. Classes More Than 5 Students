@@ -1,0 +1,4 @@
+/* Write your PL/SQL query statement below */
+Select class from Courses 
+having count(class)>=5
+group by class
