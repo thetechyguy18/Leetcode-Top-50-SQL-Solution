@@ -1,0 +1,11 @@
+/* Write your PL/SQL query statement below */
+with day_sum as (select visited_on, sum(amount) amount from Customer
+group by visited_on)
+
+select to_char(A.visited_on) visited_on ,round(sum(b.amount),2) amount,
+ round(avg(b.amount),2) average_amount
+from day_sum A 
+join day_sum B on A.visited_on - B.visited_on between 0 and 6 
+group by A.visited_on 
+having count(*) >6 
+order by A.visited_on 
